@@ -1,0 +1,3 @@
+[submodule "appinspect"]
+	path = appinspect
+	url = https://bitbucket.org/SPLServices/appinspect

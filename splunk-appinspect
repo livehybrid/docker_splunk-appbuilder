@@ -1,0 +1,6 @@
+#!/bin/bash
+echo "Start"
+/usr/local/bin/splunk-appinspect "$@"
+/bin/check-appinspect-reports
+#echo "End" && exit $?
+exit $?
