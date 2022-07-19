@@ -38,4 +38,4 @@ jobs:
       with:
         context: .
         push: true
-        tags: livehybrid/gitlab-release:latest
+        tags: livehybrid/splunk-appbuilder:20220719
