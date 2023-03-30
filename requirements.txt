@@ -3,8 +3,4 @@ git+https://github.com/pixelb/crudini.git#egg=crudini
 http://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-1.0.1.tar.gz
 splunk-appinspect
 versioningit
-
-# To be removed in future
-Sphinx
-sphinxcontrib-restbuilder
-sphinx_rtd_theme
+awscli

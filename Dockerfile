@@ -58,11 +58,24 @@ COPY requirements.txt /tmp
 RUN pip3 install -r /tmp/requirements.txt && pip3 install junitparser
 
 SHELL ["/bin/bash", "-c"]
-ENV PATH="/bin:${PATH}"
+ENV PATH="/root/.local/bin:/bin:${PATH}"
 
 COPY splunk-appinspect /bin/splunk-appinspect
 COPY check-appinspect-reports /bin/check-appinspect-reports
 RUN apt-get install -y libcurl3
 
 # To allow old builds to work...
-RUN mkdir -p /usr/local/lib/python2.7/dist-packages/splunk_appinspect/checks/ && touch /usr/local/lib/python2.7/dist-packages/splunk_appinspect/checks/check_indexes_configuration_file.py  && touch /usr/local/lib/python2.7/dist-packages/splunk_appinspect/checks/check_saved_searches.py && touch /usr/local/lib/python2.7/dist-packages/splunk_appinspect/checks/check_cloud_simple_app.py
+RUN mkdir -p /usr/local/lib/python2.7/dist-packages/splunk_appinspect/checks/ && touch /usr/local/lib/python2.7/dist-packages/splunk_appinspect/checks/check_indexes_configuration_file.py  && \
+touch /usr/local/lib/python2.7/dist-packages/splunk_appinspect/checks/check_saved_searches.py && \
+touch /usr/local/lib/python2.7/dist-packages/splunk_appinspect/checks/check_cloud_simple_app.py
+
+# Install Poetry
+# Curl isnt installed due to conflict elsewhere which is as yet unresolved so using wget
+RUN wget https://install.python-poetry.org -O /tmp/poetry-install && \
+chmod +x /tmp/poetry-install && \
+/tmp/poetry-install
+
+# Install ACS CLI
+RUN wget https://api.github.com/repos/splunk/acs-cli/releases/latest -O /tmp/acs-cli.json && \
+wget $(cat /tmp/acs-cli.json | jq '.assets[] | select(.name | contains("linux_amd64")) | .browser_download_url' -r) -O /tmp/acs-cli.tar.gz && \
+tar -xf /tmp/acs-cli.tar.gz --directory /bin
